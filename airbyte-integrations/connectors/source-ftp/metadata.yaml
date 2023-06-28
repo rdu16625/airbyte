@@ -1,0 +1,22 @@
+data:
+  allowedHosts:
+    hosts:
+      - TODO # Please change to the hostname of the source.
+  registries:
+    oss:
+      enabled: false
+  connectorSubtype: api
+  connectorType: source
+  definitionId: 3031387a-0dc8-4d07-a0e4-79920a3a25e1
+  dockerImageTag: 0.1.0
+  dockerRepository: airbyte/source-ftp
+  githubIssueLabel: source-ftp
+  icon: ftp.svg
+  license: MIT
+  name: Ftp
+  releaseDate: TODO
+  releaseStage: alpha
+  documentationUrl: https://docs.airbyte.com/integrations/sources/ftp
+  tags:
+    - language:python
+metadataSpecVersion: "1.0"
