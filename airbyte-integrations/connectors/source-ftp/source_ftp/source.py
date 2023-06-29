@@ -68,8 +68,10 @@ class SourceFtp(Source):
         }
 
         # Not Implemented
-
-        streams.append(AirbyteStream(name=stream_name, json_schema=json_schema))
+        supported_sync_modes=['full_refresh', 'incremental']
+        source_defined_cursor= True
+        default_cursor_field=['date']
+        streams.append(AirbyteStream(name=stream_name, json_schema=json_schema,supported_sync_modes=supported_sync_modes,source_defined_cursor=source_defined_cursor,default_cursor_field=default_cursor_field))        
         return AirbyteCatalog(streams=streams)
 
     def read(
