@@ -1,7 +1,7 @@
-# Ftp Source
+# Vermont Pttr Extract Source
 
-This is the repository for the Ftp source connector, written in Python.
-For information about how to use this connector within Airbyte, see [the documentation](https://docs.airbyte.com/integrations/sources/ftp).
+This is the repository for the Vermont Pttr Extract source connector, written in Python.
+For information about how to use this connector within Airbyte, see [the documentation](https://docs.airbyte.com/integrations/sources/vermont-pttr-extract).
 
 ## Local development
 
@@ -32,16 +32,16 @@ should work as you expect.
 #### Building via Gradle
 From the Airbyte repository root, run:
 ```
-./gradlew :airbyte-integrations:connectors:source-ftp:build
+./gradlew :airbyte-integrations:connectors:source-vermont-pttr-extract:build
 ```
 
 #### Create credentials
-**If you are a community contributor**, follow the instructions in the [documentation](https://docs.airbyte.com/integrations/sources/ftp)
-to generate the necessary credentials. Then create a file `secrets/config.json` conforming to the `source_ftp/spec.yaml` file.
+**If you are a community contributor**, follow the instructions in the [documentation](https://docs.airbyte.com/integrations/sources/vermont-pttr-extract)
+to generate the necessary credentials. Then create a file `secrets/config.json` conforming to the `source_vermont_pttr_extract/spec.yaml` file.
 Note that the `secrets` directory is gitignored by default, so there is no danger of accidentally checking in sensitive information.
 See `integration_tests/sample_config.json` for a sample config file.
 
-**If you are an Airbyte core member**, copy the credentials in Lastpass under the secret name `source ftp test creds`
+**If you are an Airbyte core member**, copy the credentials in Lastpass under the secret name `source vermont-pttr-extract test creds`
 and place them into `secrets/config.json`.
 
 ### Locally running the connector
@@ -57,7 +57,7 @@ python main.py read --config secrets/config.json --catalog integration_tests/con
 #### Build
 First, make sure you build the latest Docker image:
 ```
-docker build . -t airbyte/source-ftp:dev
+docker build . -t airbyte/source-vermont-pttr-extract:dev
 ```
 
 If you want to build the Docker image with the CDK on your local machine (rather than the most recent package published to pypi), from the airbyte base directory run:
@@ -67,7 +67,7 @@ CONNECTOR_TAG=<TAG_NAME> CONNECTOR_NAME=<CONNECTOR_NAME> sh airbyte-integrations
 
 You can also build the connector image via Gradle:
 ```
-./gradlew :airbyte-integrations:connectors:source-ftp:airbyteDocker
+./gradlew :airbyte-integrations:connectors:source-vermont-pttr-extract:airbyteDocker
 ```
 When building via Gradle, the docker image name and tag, respectively, are the values of the `io.airbyte.name` and `io.airbyte.version` `LABEL`s in
 the Dockerfile.
@@ -75,10 +75,10 @@ the Dockerfile.
 #### Run
 Then run any of the connector commands as follows:
 ```
-docker run --rm airbyte/source-ftp:dev spec
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-ftp:dev check --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-ftp:dev discover --config /secrets/config.json
-docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-ftp:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
+docker run --rm airbyte/source-vermont-pttr-extract:dev spec
+docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-vermont-pttr-extract:dev check --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets airbyte/source-vermont-pttr-extract:dev discover --config /secrets/config.json
+docker run --rm -v $(pwd)/secrets:/secrets -v $(pwd)/integration_tests:/integration_tests airbyte/source-vermont-pttr-extract:dev read --config /secrets/config.json --catalog /integration_tests/configured_catalog.json
 ```
 ## Testing
    Make sure to familiarize yourself with [pytest test discovery](https://docs.pytest.org/en/latest/goodpractices.html#test-discovery) to know how your test files and methods should be named.
@@ -112,11 +112,11 @@ To run your integration tests with docker
 All commands should be run from airbyte project root.
 To run unit tests:
 ```
-./gradlew :airbyte-integrations:connectors:source-ftp:unitTest
+./gradlew :airbyte-integrations:connectors:source-vermont-pttr-extract:unitTest
 ```
 To run acceptance and custom integration tests:
 ```
-./gradlew :airbyte-integrations:connectors:source-ftp:integrationTest
+./gradlew :airbyte-integrations:connectors:source-vermont-pttr-extract:integrationTest
 ```
 
 ## Dependency Management
@@ -132,7 +132,3 @@ You've checked out the repo, implemented a million dollar feature, and you're re
 1. Create a Pull Request.
 1. Pat yourself on the back for being an awesome contributor.
 1. Someone from Airbyte will take a look at your PR and iterate with you to merge it into master.
-
-
-
-docker exec -ti airbyte-db psql -U docker -d airbyte

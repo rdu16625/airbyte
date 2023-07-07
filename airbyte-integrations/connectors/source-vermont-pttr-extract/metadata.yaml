@@ -1,0 +1,22 @@
+data:
+  allowedHosts:
+    hosts:
+      - TODO # Please change to the hostname of the source.
+  registries:
+    oss:
+      enabled: false
+  connectorSubtype: api
+  connectorType: source
+  definitionId: 6aa646bb-8582-42a0-8873-495b55f8bb8f
+  dockerImageTag: 0.1.0
+  dockerRepository: airbyte/source-vermont-pttr-extract
+  githubIssueLabel: source-vermont-pttr-extract
+  icon: vermont-pttr-extract.svg
+  license: MIT
+  name: Vermont Pttr Extract
+  releaseDate: TODO
+  releaseStage: alpha
+  documentationUrl: https://docs.airbyte.com/integrations/sources/vermont-pttr-extract
+  tags:
+    - language:python
+metadataSpecVersion: "1.0"

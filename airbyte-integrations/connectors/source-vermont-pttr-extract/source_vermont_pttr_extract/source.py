@@ -5,15 +5,13 @@
 
 import json
 from datetime import datetime
-from typing import Any, Dict, Generator, List, Mapping
+from typing import Dict, Generator
 
 from airbyte_cdk.logger import AirbyteLogger
 from airbyte_cdk.models import (
     AirbyteCatalog,
     AirbyteConnectionStatus,
     AirbyteMessage,
-    AirbyteStateMessage,
-    AirbyteStateType,
     AirbyteRecordMessage,
     AirbyteStream,
     ConfiguredAirbyteCatalog,
@@ -21,21 +19,9 @@ from airbyte_cdk.models import (
     Type,
 )
 from airbyte_cdk.sources import Source
-from airbyte_cdk.sources.streams import IncrementalMixin,Stream
 
-class SourceFtp(Source, IncrementalMixin):
-    primary_key = None
-    cursor_field = "last_modified"
-    state_checkpoint_interval = 100
-    
-    @property
-    def state(self) -> Mapping[str, Any]:
-        return {self.cursor_field: str(self._cursor_value)}
 
-    @state.setter
-    def state(self, value: Mapping[str, Any]):
-        self._cursor_value = value[self.cursor_field]
-            
+class SourceVermontPttrExtract(Source):
     def check(self, logger: AirbyteLogger, config: json) -> AirbyteConnectionStatus:
         """
         Tests if the input configuration can be used to successfully connect to the integration
@@ -78,16 +64,14 @@ class SourceFtp(Source, IncrementalMixin):
         json_schema = {  # Example
             "$schema": "http://json-schema.org/draft-07/schema#",
             "type": "object",
-            "properties": {"columnName": {"type": "string"},"modified_date": {"type": "datetime"},},
+            "properties": {"columnName": {"type": "string"}},
         }
 
         # Not Implemented
-        supported_sync_modes=['full_refresh', 'incremental']
-        source_defined_cursor= True
-        default_cursor_field=['modified_date']
-        streams.append(AirbyteStream(name=stream_name, json_schema=json_schema,supported_sync_modes=supported_sync_modes,source_defined_cursor=source_defined_cursor,default_cursor_field=default_cursor_field))        
+
+        streams.append(AirbyteStream(name=stream_name, json_schema=json_schema))
         return AirbyteCatalog(streams=streams)
-    
+
     def read(
         self, logger: AirbyteLogger, config: json, catalog: ConfiguredAirbyteCatalog, state: Dict[str, any]
     ) -> Generator[AirbyteMessage, None, None]:
@@ -111,23 +95,11 @@ class SourceFtp(Source, IncrementalMixin):
         :return: A generator that produces a stream of AirbyteRecordMessage contained in AirbyteMessage object.
         """
         stream_name = "TableName"  # Example
-        data = {"columnName": "Hello World", "modified_date": "2023-07-03"}  # Example
-        logger.info(f"Reading record {data} from stream {stream_name}")
-        logger.info(f"Config: {config}")
-        logger.info(f"Catalog: {catalog}")
-        modified_date = state.get("modified_date") if state else None
-        logger.info(f"State: {state} ")
-        state["modified_date"] = data["modified_date"]
-        self._cursor_value = "2023-07-01"
-    
-        
-        # state.set(new_state)
+        data = {"columnName": "Hello World"}  # Example
+
         # Not Implemented
 
-    
         yield AirbyteMessage(
             type=Type.RECORD,
             record=AirbyteRecordMessage(stream=stream_name, data=data, emitted_at=int(datetime.now().timestamp()) * 1000),
         )
-        yield AirbyteMessage(type=Type.STATE, state=AirbyteStateMessage(type=AirbyteStateType.LEGACY, data=state))
-        # yield AirbyteStateMessage(type=AirbyteStateType.LEGACY, data=state)
